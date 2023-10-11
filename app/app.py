@@ -15,9 +15,6 @@ migrate = Migrate(app, db)
 db.init_app(app)
 
 
-# @app.route('/')
-# def home():
-#     return ''
 
 
 @app.route('/heroes', methods=["GET"])
@@ -115,7 +112,7 @@ def patch_power_by_id(id):
     return response
 
 
-# ... (other imports)
+
 
 
 @app.route('/hero_powers', methods=['POST'])
