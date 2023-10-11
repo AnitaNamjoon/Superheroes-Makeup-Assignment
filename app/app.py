@@ -1,9 +1,6 @@
-#!/usr/bin/env python3
 
-from flask import request, jsonify, make_response
 from flask import Flask, jsonify, make_response, request
 from flask_migrate import Migrate
-
 from models import db, Hero, Power, HeroPower
 
 app = Flask(__name__)
@@ -13,9 +10,6 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 migrate = Migrate(app, db)
 
 db.init_app(app)
-
-
-
 
 @app.route('/heroes', methods=["GET"])
 def heroes():
@@ -31,7 +25,6 @@ def heroes():
     response = make_response(jsonify(heroes), 200)
     response.headers['Content-Type'] = 'application/json'
     return response
-
 
 @app.route('/heroes/<int:id>', methods=['GET'])
 def hero_by_id(id):
@@ -56,7 +49,6 @@ def hero_by_id(id):
     response.headers['Content-Type'] = 'application/json'
     return response
 
-
 @app.route('/powers', methods=['GET'])
 def powers():
     powers = []
@@ -73,7 +65,6 @@ def powers():
     response.headers['Content-Type'] = 'application/json'
     return response
 
-
 @app.route('/powers/<int:id>', methods=['GET'])
 def get_power_by_id(id):
     power = Power.query.filter_by(id=id).first()
@@ -89,7 +80,6 @@ def get_power_by_id(id):
     response.headers['Content-Type'] = 'application/json'
     return response
 
-
 @app.route('/powers/<int:id>', methods=['PATCH'])
 def patch_power_by_id(id):
     power = Power.query.filter_by(id=id).first()
@@ -99,21 +89,16 @@ def patch_power_by_id(id):
     for attr in request.json:
         setattr(power, attr, request.json.get(attr))
 
-        db.session.add(power)
-        db.session.commit()
+    db.session.add(power)
+    db.session.commit()
 
     power_dict = {
         'id': power.id,
         'name': power.name,
         'description': power.description,
-
     }
     response = make_response(jsonify(power_dict), 200)
     return response
-
-
-
-
 
 @app.route('/hero_powers', methods=['POST'])
 def create_hero_power():
@@ -148,13 +133,15 @@ def create_hero_power():
             jsonify(hero_data),
             200
         )
-        return response  # Correct indentation for returning the response
+        return response
+
     except Exception as e:
         db.session.rollback()
         return jsonify({"errors": [str(e)]}), 400
 
-
-app.route('/')
+@app.route('/')
+def home():
+    return "Welcome to the Hero API"
 
 if __name__ == '__main__':
     app.run(port=5555)
