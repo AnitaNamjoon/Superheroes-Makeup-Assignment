@@ -1,38 +1,73 @@
-.App {
+/* App.css */
+
+/* Apply a background image or color to your entire app */
+body {
+  background-image: url('your-superhero-background.jpg');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-color: #222; /* Fallback background color */
+  color: #fff; /* Default text color */
+}
+
+/* Style your heroes list */
+.heroes-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  padding: 20px;
+}
+
+.hero-card {
+  background-color: #ff5722; /* Card background color */
+  color: #fff;
+  border-radius: 10px;
+  margin: 10px;
+  padding: 20px;
+  width: 300px;
+  text-align: center;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+  transition: transform 0.2s;
+}
+
+.hero-card:hover {
+  transform: scale(1.05);
+  cursor: pointer;
+}
+
+.hero-image {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  border-radius: 10px 10px 0 0;
+}
+
+.hero-name {
+  font-size: 20px;
+  margin: 10px 0;
+}
+
+/* Style the Hero Details component */
+.hero-details-container {
+  background-color: #2196F3; /* Detail card background color */
+  color: #fff;
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
   text-align: center;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.hero-details-container img {
+  max-width: 100%;
+  border-radius: 10px;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
-
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+/* Style the Hero Submission Form (customize as needed) */
+.hero-form {
+  background-color: #f44336; /* Form background color */
+  color: #fff;
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+  text-align: center;
 }
