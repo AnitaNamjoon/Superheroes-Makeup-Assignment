@@ -1,27 +1,41 @@
 /* HeroDetails.css */
+
+/* Styling for the container */
 .hero-details-container {
-    background-color: #f2f2f2;
+    background-color: #f7f7f7;
+    border: 1px solid #ccc;
     padding: 20px;
-    border-radius: 5px;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-    text-align: center;
-    max-width: 400px;
-    margin: 0 auto;
-    margin-top: 20px;
+    margin: 10px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
   }
   
-  .hero-details-image {
+  /* Styling for the hero image */
+  .hero-image {
     max-width: 100%;
     height: auto;
   }
   
-  .hero-details-name {
+  /* Styling for the hero name */
+  .hero-name {
     font-size: 24px;
-    margin-top: 10px;
+    color: #333;
+    margin: 10px 0;
   }
   
-  .hero-details-power {
+  /* Styling for the description section */
+  .hero-description {
+    margin-top: 20px;
+  }
+  
+  /* Styling for the description title */
+  .hero-description h4 {
     font-size: 18px;
-    margin: 10px 0;
+    color: #555;
+  }
+  
+  /* Styling for the description text */
+  .hero-description p {
+    font-size: 16px;
+    color: #777;
   }
   
