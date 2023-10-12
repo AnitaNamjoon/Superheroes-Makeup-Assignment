@@ -1,45 +1,71 @@
-import React from 'react';
-import { Formik, Field, Form, ErrorMessage } from 'formik';
-import * as Yup from 'yup';
+import React, { useState } from 'react';
 
-const HeroForm = ({ onSubmit, availablePowers }) => {
+function HeroForm() {
+  const [formData, setFormData] = useState({
+    strength: 5,
+    power_id: 2,
+    hero_id: 1,
+  });
+
+  const handleStrengthChange = (event) => {
+    const strength = Number(event.target.value);
+    setFormData({ ...formData, strength });
+  };
+
+  const handlePowerIdChange = (event) => {
+    const power_id = Number(event.target.value);
+    setFormData({ ...formData, power_id });
+  };
+
+  const handleHeroIdChange = (event) => {
+    const hero_id = Number(event.target.value);
+    setFormData({ ...formData, hero_id });
+  };
+
+  const handleSubmit = () => {
+    // Send the formData to the Flask backend
+    fetch('http://127.0.0.1:5555/hero_powers', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(formData),
+    })
+      .then(response => response.json())
+      .then(data => {
+        console.log('Response from server:', data);
+      })
+      .catch(error => {
+        console.error('Error:', error);
+      });
+  }
+
   return (
     <div>
-      <h1>Hero Submission Form</h1>
-      <Formik
-        initialValues={{ name: '', power: '' }}
-        validationSchema={Yup.object().shape({
-          name: Yup.string().required('Name is required'),
-          power: Yup.string().required('Power is required'),
-        })}
-        onSubmit={(values, { resetForm }) => {
-          onSubmit(values);
-          resetForm();
-        }}
-      >
-        <Form>
-          <div>
-            <label htmlFor="name">Name:</label>
-            <Field type="text" name="name" id="name" />
-            <ErrorMessage name="name" component="div" className="error" />
-          </div>
-          <div>
-            <label htmlFor="power">Power:</label>
-            <Field as="select" name="power" id="power">
-              <option value="">Select a power</option>
-              {availablePowers.map((power) => (
-                <option key={power} value={power}>
-                  {power}
-                </option>
-              ))}
-            </Field>
-            <ErrorMessage name="power" component="div" className="error" />
-          </div>
-          <button type="submit">Submit</button>
-        </Form>
-      </Formik>
+      <label>Strength: </label>
+      <input
+        type="number"
+        value={formData.strength}
+        onChange={handleStrengthChange}
+      />
+      <br />
+      <label>Power ID: </label>
+      <input
+        type="number"
+        value={formData.power_id}
+        onChange={handlePowerIdChange}
+      />
+      <br />
+      <label>Hero ID: </label>
+      <input
+        type="number"
+        value={formData.hero_id}
+        onChange={handleHeroIdChange}
+      />
+      <br />
+      <button onClick={handleSubmit}>Submit</button>
     </div>
   );
-};
+}
 
 export default HeroForm;
