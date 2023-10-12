@@ -1,44 +1,17 @@
 from flask import Flask, jsonify, make_response, request
-from flask_migrate import Migrate  # Import Flask-Migrate
+from flask_migrate import Migrate
 from flask_cors import CORS
-from models import db  
-from models import Hero
+from models import db, Hero  # Make sure you import the Hero model
 
-
-
-app = Flask(__name__)
+app = Flask(__name)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///app.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 CORS(app)
-migrate = Migrate(app, db)  
-
+migrate = Migrate(app, db)
 
 db.init_app(app)
 
-heroes = []
-
-@app.route('/heroes', methods=['POST'])
-def create_hero():
-    # Get data from the request
-    data = request.get_json()
-
-    # Ensure that required fields exist
-    if 'name' not in data:
-        return jsonify({'error': 'Name is required'}), 400
-
-    # Create a new hero
-    new_hero = {
-        'id': len(heroes) + 1,
-        'name': data['name'],
-        'powers': data.get('powers', [])
-    }
-
-    # Append the new hero to the list
-    heroes.append(new_hero)
-
-    return jsonify(new_hero), 201
-
-@app.route('/heroes', methods=["GET"])
+@app.route('/heroes', methods=['GET'])
 def heroes():
     heroes = []
     for hero in Hero.query.all():
@@ -80,7 +53,7 @@ def hero_by_id(id):
 def powers():
     powers = []
 
-    for power in Power.query.all():
+    for power in Power.query.all():  # Assuming you have a Power model
         power_dict = {
             'id': power.id,
             'name': power.name,
@@ -96,7 +69,7 @@ def powers():
 def get_power_by_id(id):
     power = Power.query.filter_by(id=id).first()
     if not power:
-        return jsonify({'error': 'Power not found'}), 404
+        return jsonify({'error': 'Power not found'}, 404)
 
     power_dict = {
         'id': power.id,
@@ -107,64 +80,20 @@ def get_power_by_id(id):
     response.headers['Content-Type'] = 'application/json'
     return response
 
-@app.route('/powers/<int:id>', methods=['PATCH'])
-def patch_power_by_id(id):
-    power = Power.query.filter_by(id=id).first()
-    if not power:
-        return jsonify({'error': 'Power not found'}), 404
-
-    for attr in request.json:
-        setattr(power, attr, request.json.get(attr))
-
-    db.session.add(power)
-    db.session.commit()
-
-    power_dict = {
-        'id': power.id,
-        'name': power.name,
-        'description': power.description,
-    }
-    response = make_response(jsonify(power_dict), 200)
-    return response
-
-@app.route('/hero_powers', methods=['POST'])
-def create_hero_power():
+@app.route('/heroes', methods=["POST"])
+def create_hero():
     data = request.get_json()
 
     # Validate the required fields
-    if "strength" not in data or "power_id" not in data or "hero_id" not in data:
-        return jsonify({"errors": ["strength, power_id, and hero_id fields are required"]}), 400
+    if "name" not in data:
+        return jsonify({"errors": ["Name field is required"]}), 400
 
-    strength = data["strength"]
-    power_id = data["power_id"]
-    hero_id = data["hero_id"]
+    new_hero = Hero(name=data["name"])  # Create a new Hero instance
+    db.session.add(new_hero)
+    db.session.commit()
 
-    # Check if the Power and Hero exist
-    power = Power.query.get(power_id)
-    hero = Hero.query.get(hero_id)
-
-    if power is None or hero is None:
-        return jsonify({"errors": ["Power or Hero not found"]}), 404
-
-    # Create a new HeroPower
-    hero_power = HeroPower(strength=strength, hero=hero, power=power)
-    try:
-        db.session.add(hero_power)
-        db.session.commit()
-        hero_data = {
-            "id": hero.id,
-            "name": hero.name,
-            "super_name": hero.super_name,
-        }
-        response = make_response(
-            jsonify(hero_data),
-            200
-        )
-        return response
-
-    except Exception as e:
-        db.session.rollback()
-        return jsonify({"errors": [str(e)]}), 400
+    response = make_response(jsonify({"message": "Hero created successfully"}), 201)
+    return response
 
 @app.route('/')
 def home():
@@ -172,3 +101,4 @@ def home():
 
 if __name__ == '__main__':
     app.run(port=5555)
+
