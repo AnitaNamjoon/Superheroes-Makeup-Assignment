@@ -3,7 +3,7 @@ import HeroForm from './components/HeroForm';
 import HeroesList from './components/HeroesList';
 import HeroDetails from './components/HeroDetails';
 
-const apiUrl = 'http://localhost:5000'; 
+const apiUrl = 'http://localhost:5000';
 
 function App() {
   const [heroes, setHeroes] = useState([]);
@@ -24,22 +24,20 @@ function App() {
         throw new Error('Failed to submit the hero');
       }
 
-      // Assuming the server responds with the newly created hero
       const newHero = await response.json();
-
-      // Update the heroes list with the new hero
       setHeroes([...heroes, newHero]);
+
+      console.log('Superhero created successfully!');
     } catch (error) {
-      console.error(error);
+      console.error('Error creating superhero:', error);
     }
-  };
+  }
 
   const handleHeroClick = (hero) => {
     setSelectedHero(hero);
   };
 
   useEffect(() => {
-    // Fetch the list of heroes from the server when the component mounts
     async function fetchHeroes() {
       try {
         const response = await fetch(`${apiUrl}/heroes`);
@@ -55,8 +53,29 @@ function App() {
     fetchHeroes();
   }, []);
 
+  useEffect(() => {
+    async function fetchHeroDetails() {
+      try {
+        if (selectedHero) {
+          const response = await fetch(`${apiUrl}/heroes/${selectedHero.id}`);
+          if (response.ok) {
+            const data = await response.json();
+            setSelectedHero({ ...selectedHero, ...data });
+          } else {
+            console.error('Failed to fetch hero details:', response.status, response.statusText);
+          }
+        }
+      } catch (error) {
+        console.error('Error fetching hero details:', error);
+      }
+    }
+
+    fetchHeroDetails();
+  }, [selectedHero]);
+
   return (
     <div>
+      <h1>Hero Details</h1>
       <HeroForm onSubmit={handleFormSubmit} availablePowers={availablePowers} />
       <HeroesList heroes={heroes} onHeroClick={handleHeroClick} />
       <HeroDetails hero={selectedHero} />
@@ -65,3 +84,4 @@ function App() {
 }
 
 export default App;
+

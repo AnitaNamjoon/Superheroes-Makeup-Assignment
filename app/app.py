@@ -2,6 +2,8 @@ from flask import Flask, jsonify, make_response, request
 from flask_migrate import Migrate  # Import Flask-Migrate
 from flask_cors import CORS
 from models import db  
+from models import Hero
+
 
 
 app = Flask(__name__)

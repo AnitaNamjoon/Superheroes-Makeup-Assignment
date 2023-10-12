@@ -1,6 +1,5 @@
-// src/components/HeroDetails.js
-
 import React from 'react';
+import './HeroDetails.css';
 
 const HeroDetails = ({ hero }) => {
   if (!hero) {
@@ -15,8 +14,19 @@ const HeroDetails = ({ hero }) => {
   return (
     <div>
       <h2>Hero Details</h2>
-      <p>Name: {hero.name || 'N/A'}</p>
-      <p>Power: {hero.power || 'N/A'}</p>
+      <p>Name: {hero.name}</p>
+      {hero.powers ? (
+        <div>
+          <p>Power:</p>
+          <ul>
+            {hero.powers.map((power) => (
+              <li key={power.id}>{power.name}</li>
+            ))}
+          </ul>
+        </div>
+      ) : (
+        <p>No powers available</p>
+      )}
     </div>
   );
 };
