@@ -15,6 +15,29 @@ migrate = Migrate(app, db)
 
 db.init_app(app)
 
+heroes = []
+
+@app.route('/heroes', methods=['POST'])
+def create_hero():
+    # Get data from the request
+    data = request.get_json()
+
+    # Ensure that required fields exist
+    if 'name' not in data:
+        return jsonify({'error': 'Name is required'}), 400
+
+    # Create a new hero
+    new_hero = {
+        'id': len(heroes) + 1,
+        'name': data['name'],
+        'powers': data.get('powers', [])
+    }
+
+    # Append the new hero to the list
+    heroes.append(new_hero)
+
+    return jsonify(new_hero), 201
+
 @app.route('/heroes', methods=["GET"])
 def heroes():
     heroes = []
