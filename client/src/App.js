@@ -4,7 +4,7 @@ import HeroesList from './components/HeroesList';
 import HeroDetails from './components/HeroDetails';
 import Header from './components/Header'; // Make sure you have a Header component
 
-const apiUrl = 'http://localhost:5000';
+const apiUrl = 'http://127.0.0.1:5555';
 
 function App() {
   const [heroes, setHeroes] = useState([]);
@@ -13,26 +13,28 @@ function App() {
 
   const handleFormSubmit = async (values) => {
     try {
-      const response = await fetch(`${apiUrl}/heroes`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(values),
-      });
+        // Place the fetch code here
+        const response = await fetch('http://127.0.0.1:5555/heroes', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(values), // values should contain the hero data
+        });
 
-      if (!response.ok) {
-        throw new Error('Failed to submit the hero');
-      }
+        if (!response.ok) {
+            throw new Error('Failed to submit the hero');
+        }
 
-      const newHero = await response.json();
-      setHeroes([...heroes, newHero]);
+        const newHero = await response.json();
+        setHeroes([...heroes, newHero]);
 
-      console.log('Superhero created successfully!');
+        console.log('Superhero created successfully!');
     } catch (error) {
-      console.error('Error creating superhero:', error);
+        console.error('Error creating superhero:', error);
     }
-  }
+}
+
 
   const handleHeroClick = (hero) => {
     setSelectedHero(hero);
@@ -85,4 +87,5 @@ function App() {
 }
 
 export default App;
+
 
