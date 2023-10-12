@@ -1,13 +1,15 @@
-
 from flask import Flask, jsonify, make_response, request
-from flask_migrate import Migrate
-from models import db, Hero, Power, HeroPower
+from flask_migrate import Migrate  # Import Flask-Migrate
+from flask_cors import CORS
+from models import db  
+
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///app.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+CORS(app)
+migrate = Migrate(app, db)  
 
-migrate = Migrate(app, db)
 
 db.init_app(app)
 
