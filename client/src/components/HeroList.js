@@ -9,7 +9,7 @@ const HeroList = () => {
   useEffect(() => {
     const fetchHeroes = async () => {
       try {
-        const response = await axios.get('https://your-api-url.com/heroes');
+        const response = await axios.get('https://localhost:5000/heroes');
         setHeroes(response.data);
         setLoading(false);
       } catch (error) {
