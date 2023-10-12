@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import HeroForm from './components/HeroForm';
 import HeroesList from './components/HeroesList';
 import HeroDetails from './components/HeroDetails';
-import Header from './components/Header'; // Make sure you have a Header component
+import Header from './components/Header';
 
 const apiUrl = 'http://127.0.0.1:5555';
 
@@ -13,28 +13,26 @@ function App() {
 
   const handleFormSubmit = async (values) => {
     try {
-        // Place the fetch code here
-        const response = await fetch('http://127.0.0.1:5555/heroes', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(values), // values should contain the hero data
-        });
+      const response = await fetch(`${apiUrl}/heroes`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(values),
+      });
 
-        if (!response.ok) {
-            throw new Error('Failed to submit the hero');
-        }
+      if (!response.ok) {
+        throw new Error('Failed to create hero');
+      }
 
-        const newHero = await response.json();
-        setHeroes([...heroes, newHero]);
+      const newHero = await response.json();
+      setHeroes([...heroes, newHero]);
 
-        console.log('Superhero created successfully!');
+      console.log('Superhero created successfully!');
     } catch (error) {
-        console.error('Error creating superhero:', error);
+      console.error('Error creating superhero:', error);
     }
-}
-
+  };
 
   const handleHeroClick = (hero) => {
     setSelectedHero(hero);
