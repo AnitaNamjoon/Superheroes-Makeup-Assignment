@@ -1,3 +1,4 @@
+
 from flask import Flask, jsonify, make_response, request
 from flask_migrate import Migrate
 from flask_cors import CORS
@@ -101,4 +102,3 @@ def home():
 
 if __name__ == '__main__':
     app.run(port=5555)
-
