@@ -1,4 +1,4 @@
-# Superheroes App (Frontend)
+# Superheroes App 
 
 Welcome to the frontend of the Superheroes App! This is the web-based user interface for creating, listing, and viewing details of your favorite superheroes.
 
