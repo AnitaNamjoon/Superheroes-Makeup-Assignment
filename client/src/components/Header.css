@@ -1,0 +1,20 @@
+/* Header.css */
+
+/* Add a background color and padding */
+.header {
+    background-color: #007bff; /* You can change the color as per your preference */
+    padding: 10px 0;
+  }
+  
+  /* Style the header text */
+  .header h2 {
+    color: #fff;
+    text-align: center;
+    margin: 0;
+  }
+  
+  /* Add some margin to create space between the header and other content */
+  .margin-bottom {
+    margin-bottom: 20px;
+  }
+  
