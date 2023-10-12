@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import HeroForm from './components/HeroForm';
 import HeroesList from './components/HeroesList';
 import HeroDetails from './components/HeroDetails';
+import Header from './components/Header'; // Make sure you have a Header component
 
 const apiUrl = 'http://localhost:5000';
 
@@ -75,7 +76,7 @@ function App() {
 
   return (
     <div>
-      <h1>Hero Details</h1>
+      <Header />
       <HeroForm onSubmit={handleFormSubmit} availablePowers={availablePowers} />
       <HeroesList heroes={heroes} onHeroClick={handleHeroClick} />
       <HeroDetails hero={selectedHero} />
